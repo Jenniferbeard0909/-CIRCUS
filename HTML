@@ -1,0 +1,622 @@
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>$CIRCUS — Governance, Roles, Application</title>
+      <meta name="description" content="$CIRCUS governance hub: M9 approvals, Gold Clown roles, and application portal." />
+      <!-- Open Graph / Twitter -->
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content="$CIRCUS — Governance, Roles, Application" />
+      <meta property="og:description" content="Explore roles, understand M9 approvals, and apply to become a Gold Clown." />
+      <meta property="og:image" content="/assets/og-placeholder.png" />
+      <meta property="og:url" content="/" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="$CIRCUS — Governance, Roles, Application" />
+      <meta name="twitter:description" content="Explore roles, understand M9 approvals, and apply to become a Gold Clown." />
+      <meta name="twitter:image" content="/assets/og-placeholder.png" />
+      <style>
+        :root{
+          /* Deep Purple + Blood Red */
+          --bg:#0b0610; --panel:#14081c; --accent:#C0162B; --accent-2:#6A0DAD;
+          --text:#F5ECF7; --muted:#C9B6D6; --link:#FF546B; --border:#2a1436;
+          --chip:#2b1038; --chip-border:#3b1a4e; --success:#6ee7b7; --danger:#ff7282;
+          --input:#1b0f26; --input-border:#3b1a4e; --warning:#ffb454;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+          margin:0;
+          font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+          color:var(--text);
+          background:
+            radial-gradient(1200px 700px at 10% -10%, rgba(106,13,173,.28) 0%, rgba(11,6,16,1) 55%),
+            radial-gradient(900px 600px at 85% 0%, rgba(192,22,43,.18) 0%, rgba(11,6,16,0) 60%),
+            linear-gradient(180deg, rgba(11,6,16,1), rgba(11,6,16,1));
+        }
+        .container{max-width:1200px;margin:0 auto;padding:24px}
+        .nav{position:sticky;top:0;z-index:50;backdrop-filter: blur(8px);
+          background:linear-gradient(180deg, rgba(11,6,16,.88), rgba(11,6,16,.65));
+          border-bottom:1px solid rgba(255,255,255,.05)}
+        .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;max-width:1200px;margin:0 auto}
+        .brand{display:flex;align-items:center;gap:12px}
+        .logo{width:40px;height:40px;border-radius:10px;background: conic-gradient(from 200deg, var(--accent), var(--accent-2), var(--accent));
+          box-shadow:0 10px 30px rgba(192,22,43,.35), 0 6px 20px rgba(106,13,173,.25);outline:1px solid rgba(255,255,255,.06)}
+        .brand h1{font-size:18px;margin:0}
+        .nav a{color:var(--text);text-decoration:none;font-size:14px;padding:8px 12px;border-radius:8px}
+        .nav a:hover{background:rgba(255,255,255,.06)}
+        .pill{padding:6px 10px;border-radius:999px;font-size:12px;border:1px solid var(--chip-border);background:var(--chip);color:#f0d6ff}
+        .hero{position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.06)}
+        .hero-inner{max-width:1200px;margin:0 auto;padding:64px 24px 40px 24px}
+        .hero-bg{position:absolute;inset:0;z-index:-1;
+          background:
+            radial-gradient(1200px 800px at -10% 10%, rgba(106,13,173,.35) 0%, rgba(20,8,28,.0) 60%),
+            radial-gradient(1000px 700px at 110% 10%, rgba(192,22,43,.38) 0%, rgba(20,8,28,.0) 60%),
+            linear-gradient(135deg, rgba(106,13,173,.35), rgba(192,22,43,.35) 40%, rgba(20,8,28,.6) 70%),
+            linear-gradient(180deg, rgba(20,8,28,.85), rgba(20,8,28,.75));
+          animation: glow 12s ease-in-out infinite alternate}
+        @keyframes glow{0%{filter:hue-rotate(0deg) brightness(1)}100%{filter:hue-rotate(8deg) brightness(1.08)}}
+        .hero h2{font-size:34px;line-height:1.2;margin:0 0 8px 0;text-shadow:0 0 14px rgba(192,22,43,.25)}
+        .hero p{color:var(--muted);max-width:800px;margin:0 0 18px 0}
+        .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.08);
+          background:linear-gradient(180deg, rgba(27,10,38,.95), rgba(27,10,38,.78));color:var(--text);text-decoration:none;font-weight:600;cursor:pointer}
+        .btn-primary{background: linear-gradient(90deg, var(--accent), var(--accent-2));border:1px solid rgba(255,255,255,.12)}
+        .btn:hover{filter:brightness(1.05)}
+        .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+        .meta .pill{border-color:rgba(255,255,255,.1)}
+        .panel{background:linear-gradient(180deg, rgba(20,8,28,.92), rgba(20,8,28,.78));
+          border:1px solid var(--border);border-radius:16px;padding:20px;margin:18px 0;
+          box-shadow:0 10px 26px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.02)}
+        .panel h3{margin:0 0 8px 0;font-size:20px}
+        .divider{height:1px;background:#3b1a4e;margin:14px 0}
+        ul{margin:10px 0;padding-left:18px}
+        li{margin:6px 0}
+        .badge{display:inline-block;background:rgba(192,22,43,.12);border:1px solid rgba(192,22,43,.35);color:#ffc7cf;padding:4px 8px;border-radius:8px;font-size:12px;margin-right:8px}
+        .note{color:var(--muted);font-size:13px}
+        .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+        .role{background:linear-gradient(180deg, rgba(27,10,38,.95), rgba(27,10,38,.78));border:1px solid #3a1750;border-radius:14px;padding:16px}
+        .role h4{margin:0 0 6px 0;font-size:16px}
+        .role .subtitle{color:var(--muted);font-size:13px;margin-bottom:8px}
+        .form{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+        .form .full{grid-column:1/-1}
+        label{display:block;font-size:13px;color:#e7d8f1;margin-bottom:6px}
+        input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--input-border);background:var(--input);color:var(--text);outline:none}
+        input:invalid, select:invalid, textarea:invalid{border-color: rgba(255, 114, 130, .8)}
+        textarea{min-height:120px;resize:vertical}
+        .help{font-size:12px;color:var(--muted);margin-top:6px}
+        .error{font-size:12px;color:var(--danger);margin-top:6px;display:none}
+        .show-error .error{display:block}
+        .counter{font-size:12px;color:#dcbef3;float:right}
+        .form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+        .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+        .progress{height:8px;background:#2b1038;border-radius:999px;overflow:hidden;margin:6px 0 10px 0;border:1px solid #3b1a4e}
+        .progress > div{height:100%;background:linear-gradient(90deg, var(--accent), var(--accent-2));width:0%}
+        .page{display:none}
+        .page.active{display:block}
+        .footer{border-top:1px solid rgba(255,255,255,.06);margin-top:24px}
+        .footer-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+        a{color:var(--link)} a:hover{text-decoration:underline}
+      </style>
+    </head>
+    <body>
+      <nav class="nav">
+        <div class="nav-inner">
+          <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <h1>$CIRCUS</h1>
+          </div>
+          <div class="links">
+            <a href="/">Home</a>
+            <a href="/roles">Roles</a>
+            <a href="/application">Application</a>
+            <a href="https://t.me/circusaiernft" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://x.com/jenftcollection" target="_blank" rel="noopener">X</a>
+          </div>
+        </div>
+      </nav>
+
+      <header class="hero" id="landing">
+        <div class="hero-bg"></div>
+        <div class="hero-inner">
+          <h2>M9 Approvals, Gold Clown Roles, and Community Onboarding</h2>
+          <p>Welcome to the official governance hub. Explore the role directory, understand Major Action approvals, and apply to become a Gold Clown.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="/roles">Explore Roles</a>
+            <a class="btn" href="/application">Apply Now</a>
+          </div>
+          <div class="meta">
+            <span class="pill">#CIRCUSRAIDERZ</span>
+            <span class="pill">#MISTRESSPIECEGALLERIA</span>
+            <span class="pill">#AIERNFT</span>
+            <span class="pill">#NFTMOVIE</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="container page active" data-page="landing">
+        <section class="panel">
+          <h3>Prompt Keys — Diamonds Only</h3>
+          <div class="divider"></div>
+          <p>Prompt Keys remain exclusive to the 12 Diamonds of the Mad Mad Crown. Gold Clowns do not have prompt authority or AIER prompt access.</p>
+        </section>
+
+        <section class="panel">
+          <h3>M9 Approvals — Governance & Controls</h3>
+          <div class="divider"></div>
+          <ul>
+            <li><span class="badge">Tokenomics</span> Burns, mints, allocations, rewards, treasury moves.</li>
+            <li><span class="badge">Programs</span> Raids, points, leaderboards, quests, giveaways, companions/traits.</li>
+            <li><span class="badge">Public Launches</span> Campaigns, drops, portals, releases, partnerships.</li>
+            <li><span class="badge">Technical</span> Deployments, gates, integrations, verification/gating logic, security changes.</li>
+            <li><span class="badge">Creative</span> Official releases, canon updates, #NFTMOVIE episodes/segments.</li>
+            <li><span class="badge">Policy</span> Data collection, moderation, brand/IP, budgets, paid promos.</li>
+            <li><span class="badge">Cross-ecosystem</span> Collabs, cross-chain, vault access, external counterparties.</li>
+          </ul>
+          <div class="divider"></div>
+          <ul>
+            <li>Submit ≥ 48h before intended launch (unless urgent). Triage within 12h. Report results within 72h after completion.</li>
+            <li>Material changes require a delta addendum. Routine tasks do not need pre-approval.</li>
+          </ul>
+          <p class="note">Per-role M9 lines removed; global rules apply to all roles.</p>
+        </section>
+      </main>
+
+      <section class="container page" id="roles" data-page="roles">
+        <div class="panel">
+          <h3>11 Gold Clowns — Roles & Responsibilities</h3>
+          <div class="divider"></div>
+          <div class="note">No prompt authority in any role. Use this directory to understand scopes and deliverables.</div>
+          <div class="divider"></div>
+          <div class="grid" id="role-grid">
+            <div class="role" data-cat="tokenomics">
+              <h4>1) The Igniter — Burns & Deflation Operations</h4>
+              <div class="subtitle">Propose deflation events aligned with treasury strategy.</div>
+              <ul>
+                <li>Draft burn proposals and timing; run risk checks; prepare comms; post-burn reporting.</li>
+                <li>Maintain a ledger of proposals and outcomes.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="comms">
+              <h4>2) The Whisperer — Social Growth & Communications</h4>
+              <div class="subtitle">Drive organic growth on X/Telegram.</div>
+              <ul>
+                <li>Raid calendars, content themes, outreach drafts, analytics, FAQ moderation.</li>
+                <li>No paid promos/affiliations unless covered by global approvals.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="creative">
+              <h4>3) The Evolutor — Creative Pipeline & Quality (Non-Prompt)</h4>
+              <div class="subtitle">Coordinate creative production without prompt authority.</div>
+              <ul>
+                <li>Backlog/sprints, QA standards, contributor coordination, release notes.</li>
+                <li>No Prompt Key access; no AIER prompt use.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="rewards">
+              <h4>4) Raider’s Edge — Rewards & Participation Systems</h4>
+              <div class="subtitle">Design fair reward mechanics for #CIRCUSRAIDERZ.</div>
+              <ul>
+                <li>Points/streaks/leaderboards specs, anti-sybil rules, pilot tests, reward catalogs.</li>
+                <li>Treasury disbursements follow global approval rules.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="events">
+              <h4>5) The Fate Weaver — Narrative Events & Alter-Ego Coordination</h4>
+              <div class="subtitle">Orchestrate lore-aligned events.</div>
+              <ul>
+                <li>Event scripts, branching rules, asset coordination, canon checks, feedback summaries.</li>
+                <li>No minting or prompt authority.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="traits">
+              <h4>6) The Dragon Binder — Companion & Trait Program Management</h4>
+              <div class="subtitle">Manage companions/traits definitions and operations.</div>
+              <ul>
+                <li>Trait definitions/rarity, claim mechanics, anti-exploit rules, verification flows, usage metrics.</li>
+                <li>No vault access changes or on-chain actions without global approval.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="risk">
+              <h4>7) Skull Sentinel — Risk, Sentiment & Response</h4>
+              <div class="subtitle">Monitor sentiment and coordinate factual comms.</div>
+              <ul>
+                <li>Monitoring, response templates, AMAs/Q&A, public rumor log.</li>
+                <li>No enforcement/doxxing.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="content">
+              <h4>8) Flame Eternal — Content & Production (#NFTMOVIE)</h4>
+              <div class="subtitle">Manage long-form content production and continuity.</div>
+              <ul>
+                <li>Production roadmaps, contributor coordination, rights/credits, release packages.</li>
+                <li>No IP/budget commitments without global approval.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="quests">
+              <h4>9) Void Crown — Quests, Portals & Experiments</h4>
+              <div class="subtitle">Design quests/portals and experimental features.</div>
+              <ul>
+                <li>Quest specs, puzzles, rewards, security reviews, telemetry and retention analysis.</li>
+                <li>No cross-chain or live gates without global approval.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="giveaways">
+              <h4>10) Giveaway Guardian — Giveaways & Governance Amplifiers</h4>
+              <div class="subtitle">Plan fair giveaways and amplifiers.</div>
+              <ul>
+                <li>Eligibility proofs, distribution plans, anti-abuse controls, public winner logs, fairness audits.</li>
+                <li>Final allocations/airdrops adhere to global approvals.</li>
+              </ul>
+            </div>
+            <div class="role" data-cat="bounties">
+              <h4>11) Community Sovereign — Ideas & Bounties (Non-Prompt)</h4>
+              <div class="subtitle">Curate idea bounties for creatives, without prompt authority.</div>
+              <ul>
+                <li>Bounty themes, submission formats (text/moodboards only), attribution checks, summaries, ROI tracking.</li>
+                <li>No Prompt Key use; no AIER triggers.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container page" id="application" data-page="application">
+        <div class="panel">
+          <h3>Gold Clown Application</h3>
+          <div class="divider"></div>
+          <div class="progress" aria-label="Completion progress">
+            <div id="progress-bar" style="width:0%"></div>
+          </div>
+          <p class="note">Submit by DM to Queen Ringmistress or an Administrator. Reviewed by M9 for eligibility. Roles are privileges, not payroll.</p>
+          <form class="form" id="gc-form" novalidate>
+            <div>
+              <label for="xhandle">X (Twitter) Handle <span class="counter" id="x-counter">0/30</span></label>
+              <input id="xhandle" name="xhandle" placeholder="@yourhandle" maxlength="30" pattern="^@?[A-Za-z0-9_]{1,15}$" required />
+              <div class="help">Include @ or plain handle. 1–15 letters/numbers/underscore.</div>
+              <div class="error">Please enter a valid X handle.</div>
+            </div>
+            <div>
+              <label for="tg">Telegram Handle</label>
+              <input id="tg" name="tg" placeholder="@telegram" pattern="^@?[A-Za-z0-9_]{5,}$" required />
+              <div class="help">Include @ or plain handle. Minimum 5 characters.</div>
+              <div class="error">Please enter a valid Telegram handle.</div>
+            </div>
+            <div class="full">
+              <label for="links">Other Links (Portfolio/Site)</label>
+              <input id="links" name="links" placeholder="https://example.com, https://link2.example" />
+              <div class="help">Separate multiple links with commas.</div>
+            </div>
+            <div>
+              <label for="role">Desired Role</label>
+              <select id="role" name="role" required>
+                <option value="">Select a role</option>
+                <option>The Igniter — Burns & Deflation Operations</option>
+                <option>The Whisperer — Social Growth & Communications</option>
+                <option>The Evolutor — Creative Pipeline & Quality (Non-Prompt)</option>
+                <option>Raider’s Edge — Rewards & Participation Systems</option>
+                <option>The Fate Weaver — Narrative Events & Alter-Ego Coordination</option>
+                <option>The Dragon Binder — Companion & Trait Program Management</option>
+                <option>Skull Sentinel — Risk, Sentiment & Response</option>
+                <option>Flame Eternal — Content & Production (#NFTMOVIE)</option>
+                <option>Void Crown — Quests, Portals & Experiments</option>
+                <option>Giveaway Guardian — Giveaways & Governance Amplifiers</option>
+                <option>Community Sovereign — Ideas & Bounties (Non-Prompt)</option>
+              </select>
+              <div class="error">Please choose a role.</div>
+            </div>
+            <div>
+              <label for="joined">When did you join $CIRCUS?</label>
+              <input id="joined" name="joined" placeholder="Month YYYY" />
+              <div class="help">Example: March 2024</div>
+            </div>
+            <div class="full">
+              <label for="qual">Qualifications & Relevant Work <span class="counter" id="qual-counter">0/800</span></label>
+              <textarea id="qual" name="qual" maxlength="800" placeholder="Briefly describe prior work, skills, and knowledge of $CIRCUS." required></textarea>
+              <div class="error">Please provide your qualifications.</div>
+            </div>
+            <div class="full">
+              <label for="raids">#CIRCUSRAIDERZ Participation <span class="counter" id="raids-counter">0/600</span></label>
+              <textarea id="raids" name="raids" maxlength="600" placeholder="Frequency, contributions, links to examples." required></textarea>
+              <div class="error">Please describe your participation.</div>
+            </div>
+            <div class="full">
+              <label for="statement">Personal Statement <span class="counter" id="statement-counter">0/800</span></label>
+              <textarea id="statement" name="statement" maxlength="800" placeholder="Tell $CIRCUS why you deserve the role." required></textarea>
+              <div class="error">Please add a personal statement.</div>
+            </div>
+            <div class="full">
+              <label><input type="checkbox" id="ack" required /> I acknowledge roles are privilege-based (not payroll) and I’ll provide weekly summaries and document Major Actions.</label>
+              <div class="error">You must acknowledge this to proceed.</div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Submit (Prepare DM)</button>
+              <button class="btn" type="button" id="copy-dm">Copy DM Text</button>
+              <button class="btn" type="button" id="download-json">Download JSON</button>
+              <button class="btn" type="button" id="print-pdf">Print to PDF</button>
+              <button class="btn" type="button" id="email-draft">Email Draft</button>
+              <button class="btn" type="button" id="server-submit">Server Submit</button>
+              <button class="btn" type="button" id="clear-form">Clear</button>
+            </div>
+            <div class="toolbar">
+              <span class="pill" id="autosave-indicator">Autosave: On</span>
+              <span class="pill" id="progress-pill">0% Complete</span>
+              <span class="pill" id="server-status">Server: Not submitted</span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <div>
+            <strong>Contact & Community</strong> —
+            <a href="https://t.me/circusaiernft" target="_blank" rel="noopener">Telegram (Primary)</a> ·
+            <a href="https://x.com/jenftcollection" target="_blank" rel="noopener">X: @jenftcollection</a>
+          </div>
+          <div class="note">© $CIRCUS</div>
+        </div>
+      </footer>
+
+      <script>
+        function route(){
+          const path = location.pathname.replace(/\/+$/,'') || '/';
+          document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+          if(path === '/' || path === ''){
+            document.querySelector('[data-page="landing"]').classList.add('active');
+          }else if(path === '/roles'){
+            document.querySelector('[data-page="roles"]').classList.add('active');
+          }else if(path === '/application'){
+            document.querySelector('[data-page="application"]').classList.add('active');
+          }else{
+            history.replaceState(null,'','/');
+            document.querySelector('[data-page="landing"]').classList.add('active');
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        window.addEventListener('popstate', route);
+        window.addEventListener('DOMContentLoaded', ()=>{
+          document.querySelectorAll('a[href^="/"]').forEach(a=>{
+            a.addEventListener('click', (e)=>{
+              const url = new URL(a.href);
+              if(url.origin === location.origin){
+                e.preventDefault();
+                history.pushState(null,'',url.pathname);
+                route();
+              }
+            });
+          });
+          initApp();
+          route();
+        });
+
+        const $ = (sel) => document.querySelector(sel);
+        const form = document.getElementById('gc-form');
+        const progressBar = document.getElementById('progress-bar');
+        const progressPill = document.getElementById('progress-pill');
+        const serverStatus = document.getElementById('server-status');
+        const fields = ['xhandle','tg','links','role','joined','qual','raids','statement','ack'];
+
+        function getData(){
+          const data = {};
+          fields.forEach(f=>{
+            const el = document.getElementById(f);
+            if(!el) return;
+            if(el.type === 'checkbox'){ data[f] = el.checked; }
+            else { data[f] = el.value.trim(); }
+          });
+          return data;
+        }
+        function setData(data){
+          fields.forEach(f=>{
+            const el = document.getElementById(f);
+            if(!el || !(f in data)) return;
+            if(el.type === 'checkbox'){ el.checked = !!data[f]; }
+            else { el.value = data[f]; }
+          });
+        }
+
+        const KEY = 'circus_gc_application_v1';
+        function save(){
+          localStorage.setItem(KEY, JSON.stringify(getData()));
+          $('#autosave-indicator').textContent = 'Autosave: Saved';
+          setTimeout(()=>$('#autosave-indicator').textContent='Autosave: On',1500);
+        }
+        function load(){
+          const raw = localStorage.getItem(KEY);
+          if(raw){
+            try{ setData(JSON.parse(raw)); }catch(e){}
+          }
+          updateCounters();
+          updateProgress();
+        }
+        function clearAll(){
+          localStorage.removeItem(KEY);
+          form.reset();
+          updateCounters();
+          updateProgress();
+        }
+
+        function makeCounter(id, max){
+          const el = $(id);
+          return function update(val){
+            el.textContent = (val.length || 0) + '/' + max;
+          }
+        }
+        const countX = makeCounter('#x-counter', 30);
+        const countQual = makeCounter('#qual-counter', 800);
+        const countRaids = makeCounter('#raids-counter', 600);
+        const countStatement = makeCounter('#statement-counter', 800);
+
+        function updateCounters(){
+          countX($('#xhandle').value || '');
+          countQual($('#qual').value || '');
+          countRaids($('#raids').value || '');
+          countStatement($('#statement').value || '');
+        }
+
+        function showError(input, show){
+          const wrapper = input.closest('div');
+          if(!wrapper) return;
+          if(show){ wrapper.classList.add('show-error'); }
+          else { wrapper.classList.remove('show-error'); }
+        }
+        function validateField(input){
+          if(input.type === 'checkbox'){
+            const valid = input.checked;
+            showError(input, !valid);
+            return valid;
+          }
+          const valid = input.checkValidity();
+          showError(input, !valid);
+          return valid;
+        }
+        function validateForm(){
+          let ok = true;
+          ['xhandle','tg','role','qual','raids','statement','ack'].forEach(id=>{
+            const el = document.getElementById(id);
+            if(el){ ok = validateField(el) && ok; }
+          });
+          return ok;
+        }
+
+        function updateProgress(){
+          const data = getData();
+          const required = ['xhandle','tg','role','qual','raids','statement','ack'];
+          let done = 0;
+          required.forEach(f=>{
+            if(f === 'ack'){ if(data[f]) done++; }
+            else if(data[f] && data[f].length > 0) done++;
+          });
+          const pct = Math.round((done / required.length) * 100);
+          progressBar.style.width = pct + '%';
+          progressPill.textContent = pct + '% Complete';
+        }
+
+        function buildDM(data){
+          return [
+            'Gold Clown Application — $CIRCUS',
+            'X: ' + (data.xhandle || ''),
+            'Telegram: ' + (data.tg || ''),
+            'Links: ' + (data.links || ''),
+            'Desired Role: ' + (data.role || ''),
+            'Joined: ' + (data.joined || ''),
+            '',
+            'Qualifications:',
+            (data.qual || ''),
+            '',
+            '#CIRCUSRAIDERZ Participation:',
+            (data.raids || ''),
+            '',
+            'Personal Statement:',
+            (data.statement || ''),
+            '',
+            'Acknowledgment: I understand roles are privileges (not payroll). I will provide weekly summaries and document Major Actions.'
+          ].join('\\n');
+        }
+
+        function mailtoHref(subject, body){
+          const s = encodeURIComponent(subject);
+          const b = encodeURIComponent(body);
+          return 'mailto:?subject=' + s + '&body=' + b;
+        }
+
+        async function serverSubmit(){
+          const endpoint = '/.netlify/functions/submit';
+          const payload = getData();
+          serverStatus.textContent = 'Server: Submitting...';
+          try{
+            const res = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ application: payload })
+            });
+            if(!res.ok) throw new Error('HTTP ' + res.status);
+            await res.json().catch(()=> ({}));
+            serverStatus.textContent = 'Server: Submitted';
+            alert('Submitted to server successfully.');
+          }catch(err){
+            serverStatus.textContent = 'Server: Error';
+            alert('Server submission failed. Check console for details.');
+            console.error('Server submit error:', err);
+          }
+        }
+
+        function initApp(){
+          load();
+
+          form.addEventListener('input', (e)=>{
+            updateCounters();
+            updateProgress();
+            save();
+            if(e.target && (e.target.matches('input, select, textarea'))){
+              validateField(e.target);
+            }
+          });
+          form.addEventListener('blur', (e)=>{
+            if(e.target && (e.target.matches('input, select, textarea'))){
+              validateField(e.target);
+            }
+          }, true);
+
+          form.addEventListener('submit', (e)=>{
+            e.preventDefault();
+            if(!validateForm()){
+              alert('Please fix the highlighted fields before submitting.');
+              return;
+            }
+            const dm = buildDM(getData());
+            navigator.clipboard.writeText(dm).then(()=>{
+              alert('Your application text is copied to clipboard. Paste it into a Telegram DM to submit.');
+            }).catch(()=>{
+              alert('Application prepared, but clipboard copy failed. Use the "Copy DM Text" button or open console for text.');
+              console.log(dm);
+            });
+          });
+
+          document.getElementById('copy-dm').addEventListener('click', ()=>{
+            const dm = buildDM(getData());
+            navigator.clipboard.writeText(dm).then(()=>{
+              alert('Copied DM text to clipboard.');
+            }).catch(()=>{
+              console.log(dm);
+              alert('If copy failed, open console to retrieve the text.');
+            });
+          });
+
+          document.getElementById('download-json').addEventListener('click', ()=>{
+            const blob = new Blob([JSON.stringify(getData(), null, 2)], {type:'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'circus-gold-clown-application.json';
+            document.body.appendChild(a); a.click(); a.remove();
+            URL.revokeObjectURL(url);
+          });
+
+          document.getElementById('print-pdf').addEventListener('click', ()=>{
+            window.print();
+          });
+
+          document.getElementById('email-draft').addEventListener('click', ()=>{
+            const href = mailtoHref('Gold Clown Application — $CIRCUS', buildDM(getData()));
+            window.location.href = href;
+          });
+
+          document.getElementById('server-submit').addEventListener('click', async ()=>{
+            if(!validateForm()){
+              alert('Please complete required fields before server submission.');
+              return;
+            }
+            await serverSubmit();
+          });
+
+          document.getElementById('clear-form').addEventListener('click', ()=>{
+            if(confirm('Clear the form and remove autosaved data?')){
+              clearAll();
+            }
+          });
+        }
+      </script>
+    </body>
+  </html>
