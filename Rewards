@@ -1,0 +1,24 @@
+<section id="rewards" class="rewards">
+  <div class="wrap">
+    <h2>Rewards</h2>
+    <p class="lede">
+      Rewards celebrate participation, creativity, and community presence.
+      Details will be announced via official channels to ensure clarity and verification.
+    </p>
+    <ul class="reward-list">
+      <li>
+        <h3>Participation Rewards</h3>
+        <p>Recognition for active community engagement and showcase contributions.</p>
+      </li>
+      <li>
+        <h3>Preview Access</h3>
+        <p>Early looks at upcoming Galleria pieces and behind-the-scenes features.</p>
+      </li>
+      <li>
+        <h3>Spotlight Features</h3>
+        <p>Selected works and community highlights promoted across channels.</p>
+      </li>
+    </ul>
+    <aside class="compliance">Verification via official channels. No financial or staking claims.</aside>
+  </div>
+</section>
