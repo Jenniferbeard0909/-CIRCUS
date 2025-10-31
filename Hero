@@ -1,0 +1,31 @@
+<section class="hero">
+  <div class="hero-media">
+    <video
+      class="hero-video"
+      src="/media/grok_video_2025-10-20-08-54-06.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="/media/grok_video_2025-10-20-08-54-06_poster.jpg"
+      aria-label="Galleria display video: jeweled lattice and ember-lit spectacle"
+    ></video>
+    <!-- Optional future format
+    <source src="/media/grok_video_2025-10-20-08-54-06.webm" type="video/webm" />
+    -->
+    <div class="video-overlay"></div>
+  </div>
+
+  <div class="hero-content">
+    <h1>Mistresspiece Galleria</h1>
+    <p class="subhead">Where spectacle meets art—curated visions from the ring of shadows and light.</p>
+    <span class="status-tag">Status: Pre-launch</span>
+    <div class="cta-group">
+      <a class="btn btn-primary" href="#galleria">Enter the Galleria</a>
+      <a class="btn btn-ghost" href="#community">Join the Community</a>
+    </div>
+    <button class="mute-toggle" aria-pressed="true" aria-label="Tap to unmute">
+      Tap to unmute
+    </button>
+  </div>
+</section>
