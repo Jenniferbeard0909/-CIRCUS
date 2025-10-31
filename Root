@@ -1,0 +1,42 @@
+:root{
+  --deep-purple:#4B1E6F;
+  --blood-red:#8B0013;
+  --ember:#FF6A00;
+  --obsidian:#0B0B10;
+  --spectral:#7A2F9F;
+}
+
+.hero{
+  position:relative; min-height:82vh; color:#fff; background:var(--obsidian);
+  display:grid; align-items:end; overflow:hidden;
+}
+.hero-media{position:absolute; inset:0}
+.hero-video{
+  width:100%; height:100%; object-fit:cover; filter:saturate(1.05) contrast(1.05);
+}
+.video-overlay{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(60% 90% at 50% 90%, rgba(255,106,0,0.25), transparent 60%),
+    linear-gradient(120deg, rgba(75,30,111,0.65), rgba(139,0,19,0.60));
+  box-shadow: inset 0 0 180px rgba(11,11,16,0.85);
+  pointer-events:none;
+}
+.hero-content{
+  position:relative; z-index:2; padding:8rem 2rem 3rem; max-width:1100px; margin:0 auto;
+  text-shadow:0 2px 14px rgba(0,0,0,0.4);
+}
+.status-tag{
+  display:inline-block; margin:.75rem 0 1.25rem; padding:.25rem .6rem; border-radius:6px;
+  background:linear-gradient(90deg, rgba(75,30,111,0.75), rgba(139,0,19,0.75));
+  border:1px solid rgba(255,255,255,0.18); font-size:.9rem;
+}
+.btn{display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1.1rem; border-radius:10px; text-decoration:none}
+.btn-primary{background:var(--blood-red); color:#fff}
+.btn-primary:hover{background:#a30016}
+.btn-ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.28)}
+.btn-ghost:hover{border-color:#fff}
+.mute-toggle{
+  margin-top:1rem; background:transparent; border:1px solid rgba(255,255,255,0.28);
+  color:#fff; border-radius:999px; padding:.45rem .9rem; font-size:.9rem;
+}
