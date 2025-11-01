@@ -1,4 +1,3 @@
-
 AIERNFT 
 What is AIERNFT?
 AIERNFT stands for Artificial Intelligent Emotional Enhanced Resonance Reality NonFungible Tokens. It's an innovative NFT category pioneered by the $CIRCUS project, a Web3 ecosystem blending memecoins, digital art, and interactive storytelling on Solana. Created by artist Jennifer Beard (known as the Queen Ringmistress), AIERNFTs transcend static collectibles—they're dynamic, AI-powered assets that evolve, animate, and forge deep personal connections as part of the ongoing #CircusGoesOnAndOn saga. Unlike traditional NFTs, AIERNFTs leverage AI to breathe "life" into the artwork, creating immersive experiences tied to community-driven narratives.The $CIRCUS ecosystem tiers AIERNFTs by complexity (C1–C4), with staking of $CIRCUS memecoin by Loyal Clowns unlocking evolutions:C1: Base image NFTs with AI-ER (Artificial Intelligent Emotional Resonance or Enhanced Reality).
