@@ -1,0 +1,131 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+new file mode 100644
+index 0000000..b7c0d4e
+--- /dev/null
++++ b/.github/workflows/ci.yml
+@@ -0,0 +1,98 @@
++name: CI
++on:
++  push:
++    branches: [ main ]
++  pull_request:
++permissions:
++  contents: read
++jobs:
++  quality:
++    name: Links, HTML, Lighthouse
++    runs-on: ubuntu-latest
++    steps:
++      - name: Checkout
++        uses: actions/checkout@v4
++
++      - name: Setup Node.js
++        uses: actions/setup-node@v4
++        with:
++          node-version: '20'
++          cache: 'npm'
++
++      - name: Install tools
++        run: |
++          npm i -g http-server linkinator @lhci/cli
++          echo "Downloading vnu.jar..."
++          curl -fsSL https://github.com/validator/validator/releases/download/23.4.11/vnu.jar_23.4.11.zip -o vnu.zip
++          unzip -q vnu.zip -d vnu
++
++      - name: Serve site
++        run: |
++          http-server -p 8080 . >/dev/null 2>&1 &
++          echo "Server started on http://127.0.0.1:8080"
++          sleep 2
++
++      - name: Link checking (linkinator)
++        run: |
++          linkinator http://127.0.0.1:8080 \
++            --recurse \
++            --skip "mailto:,tel:,^https?://(www\.)?twitter\.com/,^https?://t\.me/" \
++            --verbosity error
++
++      - name: Save link report
++        if: always()
++        run: |
++          linkinator http://127.0.0.1:8080 \
++            --recurse \
++            --skip "mailto:,tel:,^https?://(www\.)?twitter\.com/,^https?://t\.me/" \
++            --format json > link-report.json || true
++
++      - name: HTML validation (vNU)
++        run: |
++          # Validate all HTML files in the repo. If you generate to a build dir, point to that instead.
++          java -Xss512m -jar vnu/dist/vnu.jar --skip-non-html --errors-only --exit-zero-always . > vnu-report.txt || true
++          # Fail the job if there are any "error:" lines (but still keep the full report)
++          if grep -qi "error:" vnu-report.txt; then
++            echo "HTML validation errors found:"
++            grep -i "error:" vnu-report.txt | sed -e 's/^/  /'
++            exit 1
++          fi
++
++      - name: Lighthouse CI
++        env:
++          # Needed by LHCI to run headless Chrome
++          CHROME_PATH: google-chrome-stable
++        run: |
++          # Install Chrome
++          sudo apt-get update
++          sudo apt-get install -y google-chrome-stable || sudo apt-get install -y chromium-browser
++          # Run LHCI against local server
++          lhci collect --url=http://127.0.0.1:8080 --numberOfRuns=2 --config=lighthouserc.json
++          lhci assert --config=lighthouserc.json
++          # Prepare artifact
++          mkdir -p lhci-report && cp -r .lighthouseci/* lhci-report/ || true
++
++      - name: Upload artifacts
++        if: always()
++        uses: actions/upload-artifact@v4
++        with:
++          name: qa-reports
++          path: |
++            link-report.json
++            vnu-report.txt
++            lhci-report
++          if-no-files-found: ignore
+diff --git a/lighthouserc.json b/lighthouserc.json
+new file mode 100644
+index 0000000..e0b3d21
+--- /dev/null
++++ b/lighthouserc.json
+@@ -0,0 +1,41 @@
++{
++  "ci": {
++    "collect": {
++      "startServerCommand": "http-server -p 8080 .",
++      "url": [
++        "http://127.0.0.1:8080/"
++      ],
++      "numberOfRuns": 2,
++      "settings": {
++        "formFactor": "desktop",
++        "screenEmulation": { "mobile": false },
++        "throttlingMethod": "simulate"
++      }
++    },
++    "assert": {
++      "preset": "lighthouse:recommended",
++      "assertions": {
++        "categories:performance": ["error", { "minScore": 0.80 }],
++        "categories:accessibility": ["error", { "minScore": 0.90 }],
++        "categories:seo": ["warn", { "minScore": 0.90 }],
++        "categories:best-practices": ["warn", { "minScore": 0.85 }],
++        "uses-rel-preload": "warn",
++        "uses-responsive-images": "warn",
++        "uses-text-compression": "warn",
++        "color-contrast": "warn",
++        "meta-description": "warn",
++        "document-title": "warn"
++      }
++    },
++    "upload": {
++      "target": "filesystem",
++      "outputDir": ".lighthouseci"
++    }
++  }
++}
